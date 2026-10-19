@@ -98,11 +98,16 @@ input:focus,select:focus,textarea:focus{border-color:var(--ac)}textarea{min-heig
 @media (min-width:880px){
 .w{max-width:1080px;display:grid;grid-template-columns:minmax(0,430px) minmax(0,1fr);column-gap:36px;align-items:start;padding:40px 28px 60px}
 .hd{grid-column:1/-1;margin-bottom:22px}h1{font-size:34px}
-.w>:nth-child(2){grid-column:1;grid-row:2}
-.w>:nth-child(3){grid-column:1;grid-row:3;margin-top:20px}
-.w>:nth-child(4){grid-column:2;grid-row:2/span 2;margin-top:0}
+#hero{grid-column:1;grid-row:2}
+#s-tt{grid-column:1;grid-row:3;margin-top:20px}
+#s-ex{grid-column:1;grid-row:4;margin-top:20px}
+#s-as{grid-column:2;grid-row:2/span 3;margin-top:0}
 .w>.ft{grid-column:1/-1}
 .cardx{max-height:none}}
+.rw.dh{border-top:0;padding:16px 0 4px}.rw.dh .rb b{font-size:14px}
+.only-ex{display:none}#fm.ex .only-ex{display:block}#fm.ex .only-item{display:none}
+.tp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tp .sc{padding:12px 4px;font-size:13px}
+#flt{max-width:100%;overflow-x:auto;scrollbar-width:none}.seg button{white-space:nowrap}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -110,27 +115,35 @@ input:focus,select:focus,textarea:focus{border-color:var(--ac)}textarea{min-heig
 <div class="w">
   <div class="hd rise"><div><div class="brand"><svg class="lg" viewBox="-270 -200 540 400" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round"><g transform="rotate(-16)"><path d="M-250 0A250 46 0 0 1 250 0" stroke-width="9"/></g><circle r="155" stroke-width="38"/><g transform="rotate(-16)"><path d="M-250 0A250 46 0 0 0 250 0" stroke="var(--bg)" stroke-width="32"/><path d="M-250 0A250 46 0 0 0 250 0" stroke-width="12"/></g></g><circle cx="191" cy="-24" r="19" fill="currentColor"/></svg><span>Orbis</span></div><small>E&amp;CS · Semester I</small><h1>Batch 1</h1></div><div class="clk" id="clk"></div></div>
   <div class="hero rise idle" id="hero" style="--d:.08s"></div>
-  <div class="sec rise" style="--d:.16s">
+  <div class="sec rise" id="s-tt" style="--d:.16s">
     <button class="btn b2 wide" id="tgl"><span>Full timetable</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
     <div class="acc"><div><div class="cardx"><div class="tabs" id="tabs"></div><div id="tt"></div></div></div></div>
   </div>
-  <div class="sec rise" style="--d:.24s">
+  <div class="sec rise" id="s-ex" style="--d:.2s" hidden>
+    <div class="sh"><h2>Semester exams</h2><span id="exb"></span></div>
+    <div class="cardx" id="exl"></div>
+  </div>
+  <div class="sec rise" id="s-as" style="--d:.24s">
     <div class="sh"><h2>Assignments</h2><button class="btn b1" id="add" hidden>+ Add</button></div>
-    <div class="seg" id="flt" style="margin-bottom:14px"><button data-f="all" class="on">All</button><button data-f="Assignment">Assignments</button><button data-f="Experiment">Experiments</button></div>
+    <div class="seg" id="flt" style="margin-bottom:14px"><button data-f="all" class="on">All</button><button data-f="Assignment">Assignments</button><button data-f="Experiment">Experiments</button><button data-f="Innovative exam">Innovative exams</button></div>
     <div id="as"></div>
   </div>
   <div class="ft" id="ft"></div>
 </div>
 <div class="ov" id="ov"><div class="sheet"><form id="fm">
   <h2 id="fh">New item</h2>
-  <button type="button" class="mini" id="wab" style="margin-top:10px">Paste from WhatsApp</button>
-  <div class="acc"><div><div style="padding-top:10px"><textarea id="wat" placeholder="Paste the deadline message from the group"></textarea><div style="display:flex;gap:10px;align-items:center;margin-top:8px"><button type="button" class="btn b1" id="wago">Auto-fill</button><span id="wast" style="font-size:12.5px;color:var(--mu)"></span></div></div></div></div>
-  <label>Type</label><div class="seg" id="ts"><button type="button" data-t="Assignment" class="on">Assignment</button><button type="button" data-t="Experiment">Experiment</button></div>
+  <div class="only-item">
+    <button type="button" class="mini" id="wab" style="margin-top:10px">Paste from WhatsApp</button>
+    <div class="acc"><div><div style="padding-top:10px"><textarea id="wat" placeholder="Paste the deadline message from the group"></textarea><div style="display:flex;gap:10px;align-items:center;margin-top:8px"><button type="button" class="btn b1" id="wago">Auto-fill</button><span id="wast" style="font-size:12.5px;color:var(--mu)"></span></div></div></div></div>
+    <label>Type</label><div class="tp" id="tp" style="--h:205"><button type="button" class="sc on" data-t="Assignment">Assignment</button><button type="button" class="sc" data-t="Experiment">Experiment</button><button type="button" class="sc" data-t="Innovative exam">Innovative exam</button></div>
+  </div>
   <label>Subject</label><div class="sg" id="sg"></div>
-  <label>Title</label><input id="fti" required placeholder="e.g. Problem set 4">
-  <label>Deadline</label><div class="tc" id="qk" style="margin-bottom:10px"><button type="button" class="mini" data-q="1">Tomorrow</button><button type="button" class="mini" data-q="3">In 3 days</button><button type="button" class="mini" data-q="7">In a week</button></div><div class="cal" id="cal"></div><label>Time</label><div class="tc" id="tc"></div><div id="ferr" style="color:var(--rd);font-size:13px;font-weight:700;margin-top:8px"></div>
-  <label>Important points from faculty</label><textarea id="fn" placeholder="Format, submission rules, marks…"></textarea>
-  <label>Faculty PDF (optional, max 1 MB)</label><div class="tc"><button type="button" class="mini" id="pk">Choose PDF</button><span id="pn" style="font-size:13px;color:var(--mu);align-self:center"></span><button type="button" class="mini" id="px" hidden style="background:var(--rdb);color:var(--rd)">Remove</button></div><input type="file" id="pdf" accept="application/pdf" hidden>
+  <div class="only-item"><label>Title</label><input id="fti" placeholder="e.g. Problem set 4"></div>
+  <label id="dl">Deadline</label><div class="tc" id="qk" style="margin-bottom:10px"><button type="button" class="mini" data-q="1">Tomorrow</button><button type="button" class="mini" data-q="3">In 3 days</button><button type="button" class="mini" data-q="7">In a week</button></div><div class="cal" id="cal"></div>
+  <div class="only-ex"><label>Start time</label><select id="xs"></select><label>End time</label><select id="xe"></select></div>
+  <div id="ferr" style="color:var(--rd);font-size:13px;font-weight:700;margin-top:8px"></div>
+  <div class="only-item"><label>Important points from faculty</label><textarea id="fn" placeholder="Format, submission rules, marks"></textarea>
+    <label>Attachment (PDF or DOCX, optional, max 1 MB)</label><div class="tc"><button type="button" class="mini" id="pk">Choose file</button><span id="pn" style="font-size:13px;color:var(--mu);align-self:center"></span><button type="button" class="mini" id="px" hidden style="background:var(--rdb);color:var(--rd)">Remove</button></div><input type="file" id="pdf" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden></div>
   <div style="display:flex;gap:8px;margin-top:18px"><button class="btn b1" style="flex:1">Save</button><button type="button" class="btn b2" id="fx">Cancel</button><button type="button" class="btn" id="fdl" hidden style="background:var(--rdb);color:var(--rd)">Delete</button></div>
 </form></div></div>
 <script>
@@ -147,6 +160,11 @@ const T={1:[['08:30','09:30','Maths','518'],['09:30','10:30','IIKS','518'],['10:
 5:[['08:30','09:30','Chemistry','518'],['09:30','10:30','EM','518'],['10:30','12:30','EW','121'],['12:30','13:30','-'],['13:30','14:30','Maths','533'],['14:30','15:30','PPS','533']],
 6:[['09:30','10:30','AAD','Online'],['10:30','12:30','PPS+EM','Online'],['12:30','13:30','-'],['13:30','15:30','Maths+Chemistry','Online'],['15:30','17:30','IIKS','Online','Practical']]};
 /* ===================== */
+const FULL={Maths:'Mathematics-I',Chemistry:'Chemistry',PPS:'Programming for Problem Solving',IIKS:'Introduction to Indian Knowledge System',EM:'Engineering Mechanics',PS:'PS-I',EW:'Electrical Workshop'};
+/* Semester exam timetable, E&CS (In-Semester Exam I, Oct 2026): [date, start, end, subject] */
+const EXD=[['2026-10-29','10:00','11:00','Chemistry'],['2026-10-29','12:00','13:00','Maths'],['2026-10-30','10:00','11:00','PPS'],['2026-10-30','12:00','13:00','IIKS'],['2026-10-31','10:00','11:00','EM']];
+const DEF=EXD.map((x,i)=>({id:'def'+i,date:x[0],s:x[1],e:x[2],subject:x[3]}));
+/* ===================== */
 const $=s=>document.querySelector(s),mn=t=>{const[h,m]=t.split(':');return+h*60+ +m};
 const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -155,53 +173,92 @@ const DN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'
 const rm=e=>e[3]==='Online'?'Online':'Room '+e[3];
 const dur=m=>m>=60?Math.floor(m/60)+'h '+(m%60)+'m':m+' min';
 const ds=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-let demo=null;const now=()=>{const d=new Date();if(demo){const[h,m]=demo.split(':');d.setHours(+h,+m,0,0)}return d};
+const pKey=k=>{const[y,m,d]=k.split('-');return new Date(+y,+m-1,+d)};
+let demo=null,demoD=null;
+const now=()=>{const d=new Date();if(demoD){const[y,m,x]=demoD.split('-');d.setFullYear(+y,+m-1,+x)}if(demo){const[h,m]=demo.split(':');d.setHours(+h,+m,0,0)}return d};
 const dateFor=w=>{const d=now();d.setDate(d.getDate()+(w-d.getDay()+7)%7);return d};
 const info=e=>{const k=e[2].split('+');return{t:k.map(x=>S[x].n).join(' / '),f:[...new Set(k.map(x=>S[x].f).filter(Boolean))].join(', '),h:S[k[0]].h}};
-let A=[],OV={can:[],hol:[]},user=null,store,filter='all',tab=null,done=ld('done',[]),edit=null,type='Assignment',loaded=false,anim=true,lastMin='';
+let A=[],X=[],OV={can:[],hol:[],exSeeded:false},user=null,store,filter='all',tab=null,done=ld('done',[]),edit=null,mode='item',type='Assignment',loaded=false,anim=true,lastMin='';
 const isAdmin=()=>!!user&&ADMINS.map(x=>x.toLowerCase()).includes(user.toLowerCase());
 const canc=(d,e)=>OV.can.includes(d+'|'+e[0]),hol=d=>OV.hol.includes(d);
 
 /* ---------- data layer ---------- */
 function demoStore(){
-  let L=ld('A',[]);
-  let O=ld('O',{can:[],hol:[]}),u=null,la=()=>{},lo=()=>{},lu=()=>{};
+  let L=ld('A',[]),Xs=ld('X',[]),O=ld('O',{can:[],hol:[]}),u=null,la=()=>{},lx=()=>{},lo=()=>{},lu=()=>{};
+  const nid=()=>String(Date.now())+Math.random().toString(36).slice(2,5);
   return{demo:1,onUser:cb=>{lu=cb;cb(u)},signIn:()=>{u=ADMINS[0];lu(u)},signOut:()=>{u=null;lu(u)},
-    onList:cb=>{la=cb;cb(L)},save:a=>{if(a.id)L=L.map(x=>x.id===a.id?a:x);else L=[...L,{...a,id:String(Date.now())}];sv('A',L);la(L)},
-    del:id=>{L=L.filter(x=>x.id!==id);sv('A',L);la(L)},onOv:cb=>{lo=cb;cb(O)},setOv:o=>{O=o;sv('O',o);lo(O)},putPdf:async(id,b)=>{localStorage.setItem('P'+id,b);return 1},getPdf:async id=>localStorage.getItem('P'+id)||'',delPdf:async id=>{try{localStorage.removeItem('P'+id)}catch(e){}}}}
+    onList:cb=>{la=cb;cb(L)},save:a=>{if(a.id)L=L.map(x=>x.id===a.id?a:x);else L=[...L,{...a,id:nid()}];sv('A',L);la(L)},
+    del:i=>{L=L.filter(x=>x.id!==i);sv('A',L);la(L)},
+    onExams:cb=>{lx=cb;cb(Xs)},saveExam:a=>{if(a.id)Xs=Xs.map(x=>x.id===a.id?a:x);else Xs=[...Xs,{...a,id:nid()}];sv('X',Xs);lx(Xs)},
+    delExam:i=>{Xs=Xs.filter(x=>x.id!==i);sv('X',Xs);lx(Xs)},
+    onOv:cb=>{lo=cb;cb(O)},setOv:o=>{O=o;sv('O',o);lo(O)},
+    putPdf:async(i,b)=>{localStorage.setItem('P'+i,b);return 1},getPdf:async i=>localStorage.getItem('P'+i)||'',delPdf:async i=>{try{localStorage.removeItem('P'+i)}catch(e){}}}}
 async function fbStore(){
   const b='https://www.gstatic.com/firebasejs/10.12.2/';
   const[{initializeApp},Au,F]=await Promise.all([import(b+'firebase-app.js'),import(b+'firebase-auth.js'),import(b+'firebase-firestore.js')]);
   const app=initializeApp(FB),auth=Au.getAuth(app),db=F.getFirestore(app);
+  const col=n=>cb=>F.onSnapshot(F.collection(db,n),s=>cb(s.docs.map(d=>({...d.data(),id:d.id})))),sav=n=>a=>{const{id,...r}=a;return id?F.setDoc(F.doc(db,n,id),r):F.addDoc(F.collection(db,n),r)};
   return{onUser:cb=>Au.onAuthStateChanged(auth,u=>cb(u&&u.email)),signIn:()=>Au.signInWithPopup(auth,new Au.GoogleAuthProvider()),signOut:()=>Au.signOut(auth),
-    onList:cb=>F.onSnapshot(F.collection(db,'assignments'),s=>cb(s.docs.map(d=>({...d.data(),id:d.id})))),
-    save:a=>{const{id,...r}=a;return id?F.setDoc(F.doc(db,'assignments',id),r):F.addDoc(F.collection(db,'assignments'),r)},
-    del:id=>F.deleteDoc(F.doc(db,'assignments',id)),
+    onList:col('assignments'),save:sav('assignments'),del:id=>F.deleteDoc(F.doc(db,'assignments',id)),
+    onExams:col('exams'),saveExam:sav('exams'),delExam:id=>F.deleteDoc(F.doc(db,'exams',id)),
     onOv:cb=>F.onSnapshot(F.doc(db,'settings','overrides'),s=>cb(s.data()||{})),setOv:o=>F.setDoc(F.doc(db,'settings','overrides'),o),
     putPdf:async(id,b)=>{const n=Math.ceil(b.length/7e5);for(let i=0;i<n;i++)await F.setDoc(F.doc(db,'pdfs',id+'_'+i),{d:b.slice(i*7e5,(i+1)*7e5)});return n},
     getPdf:async(id,n)=>{let t='';for(let i=0;i<n;i++)t+=(await F.getDoc(F.doc(db,'pdfs',id+'_'+i))).data().d;return t},
     delPdf:async(id,n)=>{for(let i=0;i<n;i++)await F.deleteDoc(F.doc(db,'pdfs',id+'_'+i))}}}
 
+/* ---------- exam helpers ---------- */
+const exl=()=>((X.length||OV.exSeeded)?X:DEF).slice().sort((a,b)=>a.date.localeCompare(b.date)||a.s.localeCompare(b.s));
+const exTs=(x,t)=>{const[y,m,d]=x.date.split('-'),[h,i]=t.split(':');return new Date(+y,+m-1,+d,+h,+i).getTime()};
+const exName=x=>FULL[x.subject]||x.subject;
+const dLab=k=>pKey(k).toLocaleDateString([],{weekday:'short',day:'numeric',month:'short'});
+const dayDiff=k=>{const b=now();b.setHours(0,0,0,0);return Math.round((pKey(k)-b)/864e5)};
+function examMode(){const L=exl();if(!L.length)return false;const t=ds(now());return t>=L[0].date&&t<=L[L.length-1].date}
+const exBtn=()=>(X.length||OV.exSeeded)?'<button class="mini" data-xa="1">+ Add exam</button>':'<button class="mini" data-xi="1">Import timetable</button>';
+function exHTML(L,bar){
+  const ad=isAdmin(),t=now().getTime();let h='',last='';
+  if(ad&&bar)h+='<div class="rw" style="border:0"><div class="rb"><span>Manage exams</span></div>'+exBtn()+'</div>';
+  if(!L.length)return h+'<div class="empty">No exams scheduled.</div>';
+  for(const x of L){
+    if(x.date!==last){last=x.date;const k=dayDiff(x.date);h+=`<div class="rw dh"><div class="rb"><b>${dLab(x.date)}</b><span>${k===0?'Today':k===1?'Tomorrow':k>1?'In '+k+' days':'Done'}</span></div></div>`}
+    const cur=exTs(x,x.s)<=t&&t<exTs(x,x.e);
+    h+=`<div class="rw${cur?' cur':''}" style="--h:${(S[x.subject]||{h:220}).h}"><div class="tm">${f12(x.s)}<br>${f12(x.e)}</div><div class="bar"></div><div class="rb"><b>${esc(exName(x))}</b></div>${ad&&X.length?`<button class="mini" data-x="${x.id}">Edit</button>`:''}</div>`}
+  return h}
+function rEX(){
+  const td=ds(now()),up=exl().filter(x=>x.date>=td);
+  $('#s-ex').hidden=examMode()||!(up.length||isAdmin());
+  $('#exb').innerHTML=isAdmin()?exBtn():'';$('#exl').innerHTML=exHTML(up,false)}
+async function importEx(){try{for(const x of DEF){const{id,...r}=x;await store.saveExam(r)}OV={...OV,exSeeded:true};await store.setOv(OV)}catch(e){alert('Could not import. Are you signed in as an admin?')}}
+
 /* ---------- live "now" card ---------- */
 function nextLec(n,m){for(let i=0;i<8;i++){const d=new Date(n);d.setDate(d.getDate()+i);const k=ds(d);if(hol(k))continue;const e=(T[d.getDay()]||[]).find(e=>e[2]!=='-'&&!canc(k,e)&&(i>0||mn(e[0])>m));if(e)return{e,i,d}}return null}
 let hh='',U={};
 function hero(){
-  const n=now(),d=ds(n),m=n.getHours()*60+n.getMinutes(),sec=m*60+n.getSeconds(),L=T[n.getDay()]||[];
-  const cur=L.find(e=>mn(e[0])<=m&&m<mn(e[1])),nx=nextLec(n,m),left=cur?Math.max(1,Math.ceil((mn(cur[1])*60-sec)/60)):0;
-  let h='',live=false;U={};
-  if(hol(d))h='<div class="lbl">Today</div><div class="ttl">Holiday</div><div class="sub">No lectures today. Enjoy.</div>';
-  else if(cur&&cur[2]==='-'){U.r='Back in '+dur(left);h='<div class="lbl">Now</div><div class="ttl">Break</div><div class="sub" id="rem"></div>'}
-  else if(cur&&canc(d,cur))h=`<div class="lbl">Now</div><div class="ttl">Lecture cancelled</div><div class="sub">${info(cur).t} was cancelled.</div>`;
-  else if(cur){const i=info(cur);live=true;U.p=(sec-mn(cur[0])*60)/((mn(cur[1])-mn(cur[0]))*60)*100;U.r='Ends in '+dur(left);
-    h=`<div class="lbl"><span class="dot"></span>Happening now</div><div class="ttl">${i.t}${cur[4]?' · '+cur[4]:''}</div><div class="sub">${rm(cur)} · ${f12(cur[0])} – ${f12(cur[1])}${i.f?'<br>'+i.f:''}</div><div class="pb"><i id="pbi"></i></div><div class="sub" id="rem"></div>`}
-  else h='<div class="lbl">Now</div><div class="ttl">No lecture right now</div>';
-  if(nx){const i=info(nx.e);let w;if(nx.i===0){U.n='in '+dur(mn(nx.e[0])-m);w=`${f12(nx.e[0])} · ${rm(nx.e)} · <span id="nxm"></span>`}else w=(nx.i===1?'Tomorrow':DN[nx.d.getDay()])+' at '+f12(nx.e[0]);
-    h+=`<div class="nx">Up next<br><b>${i.t}${nx.e[4]?' · '+nx.e[4]:''}</b> · ${w}</div>`}
+  const n=now(),d=ds(n),m=n.getHours()*60+n.getMinutes(),sec=m*60+n.getSeconds();let h='',live=false;U={};
+  if(examMode()){
+    const L=exl(),t=n.getTime(),cur=L.find(x=>exTs(x,x.s)<=t&&t<exTs(x,x.e)),nx=L.find(x=>exTs(x,x.s)>t);
+    if(cur){live=true;const a=exTs(cur,cur.s),b=exTs(cur,cur.e);U.p=(t-a)/(b-a)*100;U.r='Ends in '+dur(Math.max(1,Math.ceil((b-t)/6e4)));
+      h=`<div class="lbl"><span class="dot"></span>Exam in progress</div><div class="ttl">${esc(exName(cur))}</div><div class="sub">${f12(cur.s)} – ${f12(cur.e)}</div><div class="pb"><i id="pbi"></i></div><div class="sub" id="rem"></div>`}
+    else h=`<div class="lbl">Exam time</div><div class="ttl">${nx?'No exam right now':'All exams done'}</div>`+(nx?'':'<div class="sub">Well done. Regular lectures resume soon.</div>');
+    if(nx){const same=nx.date===d;if(same)U.n='in '+dur(Math.max(1,Math.ceil((exTs(nx,nx.s)-t)/6e4)));
+      h+=`<div class="nx">Next exam<br><b>${esc(exName(nx))}</b> · ${same?f12(nx.s)+' · <span id="nxm"></span>':dLab(nx.date)+' at '+f12(nx.s)}</div>`}
+  }else{
+    const L=T[n.getDay()]||[],cur=L.find(e=>mn(e[0])<=m&&m<mn(e[1])),nx=nextLec(n,m),left=cur?Math.max(1,Math.ceil((mn(cur[1])*60-sec)/60)):0;
+    if(hol(d))h='<div class="lbl">Today</div><div class="ttl">Holiday</div><div class="sub">No lectures today. Enjoy.</div>';
+    else if(cur&&cur[2]==='-'){U.r='Back in '+dur(left);h='<div class="lbl">Now</div><div class="ttl">Break</div><div class="sub" id="rem"></div>'}
+    else if(cur&&canc(d,cur))h=`<div class="lbl">Now</div><div class="ttl">Lecture cancelled</div><div class="sub">${info(cur).t} was cancelled.</div>`;
+    else if(cur){const i=info(cur);live=true;U.p=(sec-mn(cur[0])*60)/((mn(cur[1])-mn(cur[0]))*60)*100;U.r='Ends in '+dur(left);
+      h=`<div class="lbl"><span class="dot"></span>Happening now</div><div class="ttl">${i.t}${cur[4]?' · '+cur[4]:''}</div><div class="sub">${rm(cur)} · ${f12(cur[0])} – ${f12(cur[1])}${i.f?'<br>'+i.f:''}</div><div class="pb"><i id="pbi"></i></div><div class="sub" id="rem"></div>`}
+    else h='<div class="lbl">Now</div><div class="ttl">No lecture right now</div>';
+    if(nx){const i=info(nx.e);let w;if(nx.i===0){U.n='in '+dur(mn(nx.e[0])-m);w=`${f12(nx.e[0])} · ${rm(nx.e)} · <span id="nxm"></span>`}else w=(nx.i===1?'Tomorrow':DN[nx.d.getDay()])+' at '+f12(nx.e[0]);
+      h+=`<div class="nx">Up next<br><b>${i.t}${nx.e[4]?' · '+nx.e[4]:''}</b> · ${w}</div>`}
+  }
   const el=$('#hero');el.classList.toggle('idle',!live);if(h!==hh){hh=h;el.innerHTML=h}
   const p=$('#pbi');if(p)p.style.width=U.p+'%';const r=$('#rem');if(r)r.textContent=U.r;const x=$('#nxm');if(x)x.textContent=U.n}
 
-/* ---------- full timetable ---------- */
+/* ---------- full timetable (switches to exams during exam period) ---------- */
 function rTT(){
+  const ex=examMode();$('#tgl span').textContent=ex?'Exam timetable':'Full timetable';$('#tabs').hidden=ex;
+  if(ex){$('#tt').innerHTML=exHTML(exl(),true);return}
   const n=now(),td=n.getDay(),m=n.getHours()*60+n.getMinutes();if(tab===null)tab=td||1;
   $('#tabs').innerHTML=[1,2,3,4,5,6].map(i=>`<button class="tb${i===tab?' on':''}${i===td?' td':''}" data-t="${i}">${DN[i].slice(0,3)}</button>`).join('');
   const dt=dateFor(tab),k=ds(dt),H=hol(k),ad=isAdmin();
@@ -212,64 +269,71 @@ function rTT(){
     return`<div class="rw${cur?' cur':''}${c||H?' cx':''}" style="--h:${i.h}"><div class="tm">${f12(e[0])}<br>${f12(e[1])}</div><div class="bar"></div><div class="rb"><b>${i.t}${e[4]?' · '+e[4]:''}</b><span>${rm(e)}${i.f?' · '+i.f:''}</span></div>${c?'<span class="pill">Cancelled</span>':''}${ad&&!H?`<button class="mini" data-c="${k}|${e[0]}">${c?'Restore':'Cancel'}</button>`:''}</div>`}).join('');
   $('#tt').innerHTML=h}
 
-/* ---------- assignments ---------- */
-const gcal=a=>{const z=t=>new Date(t).toISOString().replace(/[-:]|\.\d{3}/g,'');return'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(a.type+': '+a.title+' ('+a.subject+')')+'&dates='+z(a.due)+'/'+z(a.due+18e5)+'&details='+encodeURIComponent(a.notes||'')};
+/* ---------- assignments, experiments, innovative exams ---------- */
+const ymd=t=>{const d=new Date(t);return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')};
+const gcal=a=>{const e=new Date(a.due);e.setDate(e.getDate()+1);return'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(a.type+': '+a.title+' ('+a.subject+')')+'&dates='+ymd(a.due)+'/'+ymd(e)+'&details='+encodeURIComponent(a.notes||'')};
+const isDoc=n=>/\.docx$/i.test(n||''),isEx=a=>a.type==='Innovative exam';
 function rAS(){
   const t=Date.now(),dn=a=>done.includes(a.id),an=anim,g=x=>dn(x)?2:x.due<t?1:0;
   const L=A.filter(a=>filter==='all'||a.type===filter).sort((a,b)=>g(a)-g(b)||(g(a)===1?b.due-a.due:a.due-b.due));
-  $('#as').innerHTML=L.length?L.map((a,i)=>`<div class="as${dn(a)?' dn':''}${an?' rise':''}" style="--h:${(S[a.subject]||{h:220}).h};--d:${i*.06}s"><button class="ck" data-d="${a.id}" aria-label="Mark done">✓</button><div class="ab"><div class="chips"><span class="ch">${esc(a.subject)}</span><span class="ch ty">${esc(a.type)}</span></div><div class="at">${esc(a.title)}</div><div class="dd">Due ${new Date(a.due).toLocaleString([],{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})}</div>${dn(a)?'<span class="cd fin">Done</span>':`<span class="cd" data-due="${a.due}"></span>`}${a.notes?`<div class="nt" data-n="1">${esc(a.notes)}</div>`:''}<div class="ac">${a.pdfId?`<button class="mini" data-p="${a.id}">Open PDF</button>`:''}<a class="mini" target="_blank" rel="noopener" href="${gcal(a)}">Add to calendar</a>${isAdmin()?`<button class="mini" data-e="${a.id}">Edit</button>`:''}</div></div></div>`).join(''):'<div class="empty">Nothing here yet. You\'re all clear.</div>';
+  $('#as').innerHTML=L.length?L.map((a,i)=>`<div class="as${dn(a)?' dn':''}${an?' rise':''}" style="--h:${(S[a.subject]||{h:220}).h};--d:${i*.06}s"><button class="ck" data-d="${a.id}" aria-label="Mark done">✓</button><div class="ab"><div class="chips"><span class="ch">${esc(a.subject)}</span><span class="ch ty">${esc(a.type)}</span></div><div class="at">${esc(a.title)}</div><div class="dd">${isEx(a)?'Exam on ':'Due '}${new Date(a.due).toLocaleDateString([],{weekday:'short',day:'numeric',month:'short'})}</div>${dn(a)?'<span class="cd fin">Done</span>':`<span class="cd" data-due="${a.due}" data-ex="${isEx(a)?1:0}"></span>`}${a.notes?`<div class="nt" data-n="1">${esc(a.notes)}</div>`:''}<div class="ac">${a.pdfId?`<button class="mini" data-p="${a.id}">${isDoc(a.pdfName)?'Download DOCX':'Open PDF'}</button>`:''}<a class="mini" target="_blank" rel="noopener" href="${gcal(a)}">Add to calendar</a>${isAdmin()?`<button class="mini" data-e="${a.id}">Edit</button>`:''}</div></div></div>`).join(''):'<div class="empty">Nothing here yet. You\'re all clear.</div>';
   if(loaded)anim=false;tick()}
 function rFT(){
-  $('#ft').innerHTML=(user?`${esc(user)} · ${isAdmin()?'Admin':'Not an admin'} <button id="so">Sign out</button>`:'<button id="si">Admin sign in</button>')+(isAdmin()?`<div style="margin-top:12px">Preview time <input type="time" id="pt" value="${demo||''}" style="width:auto;display:inline-block;padding:6px 8px"></div>`:'')+(store.demo?'<div style="margin-top:10px">Demo mode: data stays on this device.</div>':'');
+  $('#ft').innerHTML=(user?`${esc(user)} · ${isAdmin()?'Admin':'Not an admin'} <button id="so">Sign out</button>`:'<button id="si">Admin sign in</button>')+(isAdmin()?`<div style="margin-top:12px">Preview <input type="date" id="pd" value="${demoD||''}" style="width:auto;display:inline-block;padding:6px 8px"> <input type="time" id="pt" value="${demo||''}" style="width:auto;display:inline-block;padding:6px 8px"></div>`:'')+(store.demo?'<div style="margin-top:10px">Demo mode: data stays on this device.</div>':'');
   $('#add').hidden=!isAdmin()}
 
 /* ---------- loop ---------- */
-function cd(due){const a=new Date(due),b=new Date();b.setHours(0,0,0,0);a.setHours(0,0,0,0);const n=Math.round((a-b)/864e5);return n===0?(due<Date.now()?'Overdue':'Due today'):n>0?n+(n===1?' day left':' days left'):'Overdue by '+(-n)+(n===-1?' day':' days')}
+function cd(due,ex){const a=new Date(due),b=new Date();b.setHours(0,0,0,0);a.setHours(0,0,0,0);const n=Math.round((a-b)/864e5);
+  if(n===0)return ex?'Exam today':(due<Date.now()?'Overdue':'Due today');
+  if(n>0)return n+(n===1?' day':' days')+(ex?' to go':' left');
+  return ex?'Exam over':'Overdue by '+(-n)+(n===-1?' day':' days')}
 function tick(){
   const n=now();$('#clk').innerHTML=n.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})+'<br><span>'+n.toLocaleDateString([],{weekday:'short',day:'numeric',month:'short'})+'</span>';
   hero();const t=Date.now();
-  document.querySelectorAll('[data-due]').forEach(e=>{const ms=+e.dataset.due-t;e.textContent=cd(+e.dataset.due);e.className='cd'+(ms<0?' late':ms<864e5?' soon':'')});
-  const mk=ds(n)+n.getHours()+':'+n.getMinutes();if(mk!==lastMin){lastMin=mk;rTT()}}
+  document.querySelectorAll('[data-due]').forEach(e=>{const ms=+e.dataset.due-t,ex=e.dataset.ex==='1';e.textContent=cd(+e.dataset.due,ex);e.className='cd'+(ms<0?(ex?' fin':' late'):ms<864e5?' soon':'')});
+  const mk=ds(n)+n.getHours()+':'+n.getMinutes();if(mk!==lastMin){lastMin=mk;rTT();rEX()}}
 
-/* ---------- events ---------- */
-$('#tgl').onclick=e=>e.currentTarget.classList.toggle('open');
-$('#tabs').onclick=e=>{const t=e.target.dataset.t;if(t){tab=+t;rTT()}};
-$('#tt').onclick=e=>{const q=e.target.dataset;
-  if(q.c){const c=[...OV.can],i=c.indexOf(q.c);i<0?c.push(q.c):c.splice(i,1);OV={...OV,can:c};store.setOv(OV);rTT();tick()}
-  if(q.h){const c=[...OV.hol],i=c.indexOf(q.h);i<0?c.push(q.h):c.splice(i,1);OV={...OV,hol:c};store.setOv(OV);rTT();tick()}};
-$('#flt').onclick=e=>{const f=e.target.dataset.f;if(f){filter=f;anim=true;[...$('#flt').children].forEach(b=>b.classList.toggle('on',b.dataset.f===f));rAS()}};
-$('#as').onclick=e=>{const q=e.target.dataset;
-  if(q.d){done=done.includes(q.d)?done.filter(x=>x!==q.d):[...done,q.d];sv('done',done);rAS()}
-  else if(q.e)openSheet(A.find(a=>a.id===q.e));
-  else if(q.n)e.target.classList.toggle('open');else if(q.p)openPdf(A.find(a=>a.id===q.p),e.target)};
-$('#ft').onclick=e=>{if(e.target.id==='si')store.signIn();if(e.target.id==='so')store.signOut()};
-$('#ft').onchange=e=>{if(e.target.id==='pt'){demo=e.target.value||null;lastMin='';tick()}};
-
-const setType=()=>[...$('#ts').children].forEach(b=>b.classList.toggle('on',b.dataset.t===type));
-$('#ts').onclick=e=>{if(e.target.dataset.t){type=e.target.dataset.t;setType()}};
-const toLocal=t=>new Date(t-new Date(t).getTimezoneOffset()*6e4).toISOString().slice(0,16);
-let fSub=SUBJ[0],fDate=null,fTime='23:59',calM=new Date();
-const TM=[['09:00','9 AM'],['12:00','12 PM'],['17:00','5 PM'],['23:59','11:59 PM']];
-const dueTs=()=>{const[h,m]=fTime.split(':');return new Date(fDate.getFullYear(),fDate.getMonth(),fDate.getDate(),+h,+m).getTime()};
+/* ---------- sheet (add / edit) ---------- */
+let fSub=SUBJ[0],fDate=null,calM=new Date(),fFile=null,fRemove=false,fOld=null,hist=false;const PB={};
+const dueTs=()=>new Date(fDate.getFullYear(),fDate.getMonth(),fDate.getDate(),23,59).getTime();
 function rSubj(){$('#sg').innerHTML=SUBJ.map(s=>`<button type="button" class="sc${s===fSub?' on':''}" style="--h:${(S[s]||{h:220}).h}" data-s="${s}"><i></i>${s}</button>`).join('')}
-function rTimes(){const L=TM.some(x=>x[0]===fTime)?TM:[...TM,[fTime,f12(fTime)]];$('#tc').innerHTML=L.map(x=>`<button type="button" class="mini${x[0]===fTime?' sel':''}" data-tm="${x[0]}">${x[1]}</button>`).join('')}
 function rCal(){const y=calM.getFullYear(),m=calM.getMonth(),first=new Date(y,m,1).getDay(),dim=new Date(y,m+1,0).getDate(),t0=new Date();t0.setHours(0,0,0,0);
-  let h=`<div class="cm"><button type="button" data-m="-1">‹</button><span>${calM.toLocaleDateString([],{month:'long',year:'numeric'})}</span><button type="button" data-m="1">›</button></div><div class="cg">`+'SMTWTFS'.split('').map(x=>`<b>${x}</b>`).join('');
+  let h=`<div class="cm"><button type="button" data-m="-1">\u2039</button><span>${calM.toLocaleDateString([],{month:'long',year:'numeric'})}</span><button type="button" data-m="1">\u203a</button></div><div class="cg">`+'SMTWTFS'.split('').map(x=>`<b>${x}</b>`).join('');
   for(let i=0;i<first;i++)h+='<span></span>';
   for(let d=1;d<=dim;d++){const dt=new Date(y,m,d),on=fDate&&+dt===+fDate;h+=`<button type="button" data-day="${d}" class="${on?'on':''}${+dt===+t0?' td':''}"${dt<t0&&!edit?' disabled':''}>${d}</button>`}
   $('#cal').innerHTML=h+'</div>'}
-$('#sg').onclick=e=>{const b=e.target.closest('button');if(b){fSub=b.dataset.s;rSubj()}};
-$('#cal').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.m)calM=new Date(calM.getFullYear(),calM.getMonth()+ +b.dataset.m,1);else if(b.dataset.day){fDate=new Date(calM.getFullYear(),calM.getMonth(),+b.dataset.day);$('#ferr').textContent=''}rCal()};
-$('#tc').onclick=e=>{const b=e.target.closest('button');if(b){fTime=b.dataset.tm;rTimes()}};
-$('#qk').onclick=e=>{const b=e.target.closest('button');if(b){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+ +b.dataset.q);fDate=d;calM=new Date(d.getFullYear(),d.getMonth(),1);$('#ferr').textContent='';rCal()}};
-$('#wab').onclick=e=>e.currentTarget.classList.toggle('open');
-/* WhatsApp message parser */
+function setType(){[...$('#tp').children].forEach(b=>b.classList.toggle('on',b.dataset.t===type));$('#dl').textContent=type==='Innovative exam'?'Exam date':'Deadline'}
+function rPdf(){const nm=fFile?fFile.name:(fOld&&!fRemove?fOld.name:'');$('#pn').textContent=nm||'No file chosen';$('#px').hidden=!nm;$('#pk').textContent=nm?'Replace file':'Choose file'}
+const show=()=>{$('#ov').classList.add('on');try{history.pushState({s:1},'');hist=true}catch(e){}};
+function openSheet(a){mode='item';$('#fm').classList.remove('ex');edit=a||null;$('#fh').textContent=a?'Edit item':'New item';type=a?a.type:'Assignment';setType();
+  fSub=a?a.subject:SUBJ[0];const dd=a?new Date(a.due):null;fDate=dd?new Date(dd.getFullYear(),dd.getMonth(),dd.getDate()):null;const cm=fDate||new Date();calM=new Date(cm.getFullYear(),cm.getMonth(),1);
+  $('#fti').value=a?a.title:'';$('#fn').value=a?a.notes||'':'';$('#wat').value='';$('#wast').textContent='';$('#ferr').textContent='';$('#wab').classList.remove('open');
+  fFile=null;fRemove=false;fOld=a&&a.pdfId?{id:a.pdfId,n:a.pdfN,name:a.pdfName}:null;rPdf();rSubj();rCal();
+  $('#fdl').hidden=!a;$('#fdl').textContent='Delete';show()}
+function openExam(x){mode='exam';$('#fm').classList.add('ex');edit=x||null;$('#fh').textContent=x?'Edit exam':'New exam';$('#dl').textContent='Exam date';
+  fSub=x?x.subject:SUBJ[0];fDate=x?pKey(x.date):null;const cm=fDate||new Date();calM=new Date(cm.getFullYear(),cm.getMonth(),1);
+  $('#xs').value=x?x.s:'10:00';$('#xe').value=x?x.e:'11:00';$('#ferr').textContent='';rSubj();rCal();$('#fdl').hidden=!x;$('#fdl').textContent='Delete';show()}
+const closeSheet=()=>{$('#ov').classList.remove('on');if(hist){hist=false;try{history.back()}catch(e){}}};
+addEventListener('popstate',()=>{$('#ov').classList.remove('on');hist=false});
+addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
+const b64=f=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=no;r.readAsDataURL(f)});
+async function openPdf(a,btn){
+  const dc=isDoc(a.pdfName),mime=dc?'application/vnd.openxmlformats-officedocument.wordprocessingml.document':'application/pdf';
+  const go=u=>{if(dc){const l=document.createElement('a');l.href=u;l.download=a.pdfName||'file.docx';document.body.appendChild(l);l.click();l.remove()}else window.open(u,'_blank')};
+  if(PB[a.pdfId]){go(PB[a.pdfId]);return}
+  const w=dc?null:window.open('','_blank'),old=btn.textContent;btn.textContent='Loading...';
+  try{const b=await store.getPdf(a.pdfId,a.pdfN),bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+    PB[a.pdfId]=URL.createObjectURL(new Blob([u],{type:mime}));btn.textContent=old;
+    if(dc)go(PB[a.pdfId]);else if(w)w.location.href=PB[a.pdfId];else btn.textContent='Tap again to open'}
+  catch(x){if(w)w.close();btn.textContent='Could not load'}}
+
+/* ---------- WhatsApp message parser ---------- */
 const AL={Maths:['maths?','mathematics'],Chemistry:['chem','chemistry'],PPS:['pps','programming'],IIKS:['iiks','iks','indian knowledge'],EM:['em','engineering mechanics','mechanics'],PS:['ps','ps-?i','practice session'],EW:['ew','elec ws','electrical workshop','workshop']};
 const MA=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'],MR='(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)';
 function parseWA(x){
   const c=x.replace(/^\[[^\]\n]*\][^:\n]*:\s*/gm,'').replace(/^\d{1,2}\/\d{1,2}\/\d{2,4},?\s*[\d:]+\s*(?:am|pm)?\s*-\s*[^:\n]*:\s*/gim,'').trim(),l=c.toLowerCase(),o={n:c};
   for(const s in AL)if(new RegExp('\\b('+AL[s].join('|')+')\\b').test(l)){o.s=s;break}
-  o.t=/experiment|practical|\blab\b|journal|write-?up|viva/.test(l)?'Experiment':'Assignment';
+  o.t=/innovative/.test(l)?'Innovative exam':/experiment|practical|\blab\b|journal|write-?up|viva/.test(l)?'Experiment':'Assignment';
   const t0=new Date();t0.setHours(0,0,0,0);let d=null,m;
   const fix=(dd,mm,yy)=>{if(mm<0||mm>11||dd<1||dd>31)return null;const y=yy?(+yy<100?2000+ +yy:+yy):t0.getFullYear();let r=new Date(y,mm,dd);if(!yy&&r<new Date(t0.getTime()-30*864e5))r=new Date(y+1,mm,dd);return r};
   if(m=l.match(new RegExp('\\b(\\d{1,2})(?:st|nd|rd|th)?[\\s-]*'+MR+'\\b(?:[\\s,-]*(\\d{4}))?')))d=fix(+m[1],MA.indexOf(m[2].slice(0,3)),m[3]);
@@ -278,54 +342,67 @@ function parseWA(x){
   else if(/\btoday\b/.test(l))d=t0;
   else if(/\b(tomorrow|tmrw)\b/.test(l)){d=new Date(t0);d.setDate(d.getDate()+1)}
   else if(m=l.match(/\b(sun|mon|tues?|wed(?:nes)?|thu(?:rs?)?|fri|sat(?:ur)?)(?:day)?\b/)){d=new Date(t0);const k=(['sun','mon','tue','wed','thu','fri','sat'].indexOf(m[1].slice(0,3))-d.getDay()+7)%7;d.setDate(d.getDate()+(k||7))}
-  o.d=d;
-  if(m=l.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/))o.tm=String(+m[1]%12+(m[3]==='pm'?12:0)).padStart(2,'0')+':'+(m[2]||'00');
-  o.title=(c.split('\n').find(s=>s.trim())||'').trim().slice(0,70);
+  o.d=d;o.title=(c.split('\n').find(s=>s.trim())||'').trim().slice(0,70);
   return o}
+
+/* ---------- events ---------- */
+$('#tgl').onclick=e=>e.currentTarget.classList.toggle('open');
+$('#tabs').onclick=e=>{const t=e.target.dataset.t;if(t){tab=+t;rTT()}};
+$('#tt').onclick=e=>{const q=e.target.dataset;
+  if(q.c){const c=[...OV.can],i=c.indexOf(q.c);i<0?c.push(q.c):c.splice(i,1);OV={...OV,can:c};store.setOv(OV);rTT();tick()}
+  if(q.h){const c=[...OV.hol],i=c.indexOf(q.h);i<0?c.push(q.h):c.splice(i,1);OV={...OV,hol:c};store.setOv(OV);rTT();tick()}};
+function exClick(e){const q=e.target.dataset;if(q.xa)openExam();else if(q.xi)importEx();else if(q.x)openExam(X.find(x=>x.id===q.x))}
+$('#tt').addEventListener('click',exClick);$('#s-ex').addEventListener('click',exClick);
+$('#flt').onclick=e=>{const f=e.target.dataset.f;if(f){filter=f;anim=true;[...$('#flt').children].forEach(b=>b.classList.toggle('on',b.dataset.f===f));rAS()}};
+$('#as').onclick=e=>{const q=e.target.dataset;
+  if(q.d){done=done.includes(q.d)?done.filter(x=>x!==q.d):[...done,q.d];sv('done',done);rAS()}
+  else if(q.e)openSheet(A.find(a=>a.id===q.e));
+  else if(q.p)openPdf(A.find(a=>a.id===q.p),e.target);
+  else if(q.n)e.target.classList.toggle('open')};
+$('#ft').onclick=e=>{if(e.target.id==='si')store.signIn();if(e.target.id==='so')store.signOut()};
+$('#ft').onchange=e=>{if(e.target.id==='pt'||e.target.id==='pd'){demo=($('#pt')||{}).value||null;demoD=($('#pd')||{}).value||null;lastMin='';rTT();rEX();tick()}};
+$('#xs').innerHTML=$('#xe').innerHTML=(()=>{let o='';for(let m=420;m<=1260;m+=15){const t=String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');o+=`<option value="${t}">${f12(t)}</option>`}return o})();
+$('#tp').onclick=e=>{const b=e.target.closest('button');if(b){type=b.dataset.t;setType()}};
+$('#sg').onclick=e=>{const b=e.target.closest('button');if(b){fSub=b.dataset.s;rSubj()}};
+$('#cal').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.m)calM=new Date(calM.getFullYear(),calM.getMonth()+ +b.dataset.m,1);else if(b.dataset.day){fDate=new Date(calM.getFullYear(),calM.getMonth(),+b.dataset.day);$('#ferr').textContent=''}rCal()};
+$('#qk').onclick=e=>{const b=e.target.closest('button');if(b){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+ +b.dataset.q);fDate=d;calM=new Date(d.getFullYear(),d.getMonth(),1);$('#ferr').textContent='';rCal()}};
+$('#wab').onclick=e=>e.currentTarget.classList.toggle('open');
 $('#wago').onclick=()=>{const r=parseWA($('#wat').value);if(!r.n){$('#wast').textContent='Paste a message first.';return}
-  if(r.s)fSub=r.s;type=r.t;setType();if(r.d){fDate=r.d;calM=new Date(r.d.getFullYear(),r.d.getMonth(),1);$('#ferr').textContent=''}if(r.tm)fTime=r.tm;
-  $('#fti').value=r.title;$('#fn').value=r.n;rSubj();rCal();rTimes();
-  $('#wast').textContent='Filled'+(r.s?' · '+r.s:' · pick subject')+(r.d?' · '+r.d.toLocaleDateString([],{day:'numeric',month:'short'}):' · pick date')+'. Please check.'};
-function openSheet(a){edit=a||null;$('#fh').textContent=a?'Edit item':'New item';type=a?a.type:'Assignment';setType();
-  fSub=a?a.subject:SUBJ[0];const dd=a?new Date(a.due):null;fDate=dd?new Date(dd.getFullYear(),dd.getMonth(),dd.getDate()):null;fTime=dd?String(dd.getHours()).padStart(2,'0')+':'+String(dd.getMinutes()).padStart(2,'0'):'23:59';const cm=fDate||new Date();calM=new Date(cm.getFullYear(),cm.getMonth(),1);
-  $('#fti').value=a?a.title:'';$('#fn').value=a?a.notes||'':'';fFile=null;fRemove=false;fOld=a&&a.pdfId?{id:a.pdfId,n:a.pdfN,name:a.pdfName}:null;rPdf();$('#wat').value='';$('#wast').textContent='';$('#ferr').textContent='';$('#wab').classList.remove('open');rSubj();rCal();rTimes();
-  $('#fdl').hidden=!a;$('#fdl').textContent='Delete';$('#ov').classList.add('on');try{history.pushState({s:1},'');hist=true}catch(e){}}
-let hist=false;
-const closeSheet=()=>{$('#ov').classList.remove('on');if(hist){hist=false;try{history.back()}catch(e){}}};
-addEventListener('popstate',()=>{$('#ov').classList.remove('on');hist=false});
-addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
-let fFile=null,fRemove=false,fOld=null;const PB={};
-const b64=f=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=no;r.readAsDataURL(f)});
-function rPdf(){const nm=fFile?fFile.name:(fOld&&!fRemove?fOld.name:'');$('#pn').textContent=nm||'No file chosen';$('#px').hidden=!nm;$('#pk').textContent=nm?'Replace PDF':'Choose PDF'}
+  if(r.s)fSub=r.s;type=r.t;setType();if(r.d){fDate=r.d;calM=new Date(r.d.getFullYear(),r.d.getMonth(),1);$('#ferr').textContent=''}
+  $('#fti').value=r.title;$('#fn').value=r.n;rSubj();rCal();
+  $('#wast').textContent='Filled'+(r.s?' \u00b7 '+r.s:' \u00b7 pick subject')+(r.d?' \u00b7 '+r.d.toLocaleDateString([],{day:'numeric',month:'short'}):' \u00b7 pick date')+'. Please check.'};
 $('#pk').onclick=()=>$('#pdf').click();
-$('#pdf').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(f.size>1048576){$('#ferr').textContent='PDF is too large (max 1 MB). Compress it and try again.';return}$('#ferr').textContent='';fFile=f;rPdf()};
+$('#pdf').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+  if(!/\.(pdf|docx)$/i.test(f.name)){$('#ferr').textContent='Only PDF or DOCX files are allowed.';return}
+  if(f.size>1048576){$('#ferr').textContent='File is too large (max 1 MB). Compress it and try again.';return}
+  $('#ferr').textContent='';fFile=f;rPdf()};
 $('#px').onclick=()=>{fFile=null;fRemove=true;rPdf()};
-async function openPdf(a,btn){
-  if(PB[a.pdfId]){window.open(PB[a.pdfId],'_blank');return}
-  const w=window.open('','_blank'),old=btn.textContent;btn.textContent='Loading...';
-  try{const b=await store.getPdf(a.pdfId,a.pdfN),bin=atob(b),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
-    PB[a.pdfId]=URL.createObjectURL(new Blob([u],{type:'application/pdf'}));
-    if(w){w.location.href=PB[a.pdfId];btn.textContent=old}else btn.textContent='Tap again to open'}
-  catch(x){if(w)w.close();btn.textContent='Could not load'}}
 $('#add').onclick=()=>openSheet();$('#fx').onclick=closeSheet;$('#ov').onclick=e=>{if(e.target.id==='ov')closeSheet()};
 $('#fdl').onclick=async e=>{if(e.target.textContent==='Delete'){e.target.textContent='Tap again to confirm';return}
-  try{await store.del(edit.id);if(edit.pdfId)await store.delPdf(edit.pdfId,edit.pdfN);closeSheet()}catch(x){alert('Could not delete. Are you signed in as an admin?')}};
+  try{if(mode==='exam')await store.delExam(edit.id);else{await store.del(edit.id);if(edit.pdfId)await store.delPdf(edit.pdfId,edit.pdfN)}closeSheet()}catch(x){alert('Could not delete. Are you signed in as an admin?')}};
 $('#fm').onsubmit=async e=>{e.preventDefault();
-  if(!fDate){$('#ferr').textContent='Pick a deadline date.';return}
+  if(!fDate){$('#ferr').textContent='Pick a date.';return}
+  if(mode==='exam'){const s=$('#xs').value,en=$('#xe').value;if(en<=s){$('#ferr').textContent='End time must be after start time.';return}
+    const r={subject:fSub,date:ds(fDate),s,e:en};if(edit)r.id=edit.id;
+    try{await store.saveExam(r);closeSheet()}catch(x){alert('Could not save. Are you signed in as an admin?')}return}
   const r={type,subject:fSub,title:$('#fti').value.trim(),due:dueTs(),notes:$('#fn').value.trim()};if(edit)r.id=edit.id;
+  if(!r.title){if(type==='Innovative exam')r.title=fSub+' innovative exam';else{$('#ferr').textContent='Add a title.';return}}
+  $('#ferr').textContent='';
   try{
     if(fFile){const id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);r.pdfN=await store.putPdf(id,await b64(fFile));r.pdfId=id;r.pdfName=fFile.name}
     else if(fOld&&!fRemove){r.pdfId=fOld.id;r.pdfN=fOld.n;r.pdfName=fOld.name}
     await store.save(r);
     if(fOld&&(fFile||fRemove))await store.delPdf(fOld.id,fOld.n);
-    closeSheet()}catch(x){alert('Could not save. Check that you are signed in as an admin and the PDF is under 1 MB.')}};
+    closeSheet()}catch(x){alert('Could not save. Check that you are signed in as an admin and the file is under 1 MB.')}};
 
 (async()=>{
   try{store=FB.apiKey?await fbStore():demoStore()}catch(e){store=demoStore()}
-  store.onUser(u=>{user=u;rFT();rTT();rAS()});
+  store.onUser(u=>{user=u;rFT();rTT();rEX();rAS()});
   store.onList(l=>{A=l;loaded=true;rAS()});
-  store.onOv(o=>{OV={can:o.can||[],hol:o.hol||[]};rTT();tick()});
-  rFT();rTT();rAS();setInterval(tick,1000)})();
+  store.onExams(l=>{X=l;rTT();rEX();tick()});
+  store.onOv(o=>{OV={can:o.can||[],hol:o.hol||[],exSeeded:!!o.exSeeded};rTT();rEX();tick()});
+  rFT();rTT();rEX();rAS();setInterval(tick,1000)})();
+
 </script>
 </body>
 </html>
