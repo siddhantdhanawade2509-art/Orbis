@@ -108,12 +108,14 @@ input:focus,select:focus,textarea:focus{border-color:var(--ac)}textarea{min-heig
 .only-ex{display:none}#fm.ex .only-ex{display:block}#fm.ex .only-item{display:none}
 .tp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tp .sc{padding:12px 4px;font-size:13px}
 #flt{max-width:100%;overflow-x:auto;scrollbar-width:none}.seg button{white-space:nowrap}
+[hidden]{display:none!important}
+#ebp{margin:-4px 0 14px}.mini.sel{background:var(--ac);color:var(--on)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="w">
-  <div class="hd rise"><div><div class="brand"><svg class="lg" viewBox="-270 -200 540 400" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round"><g transform="rotate(-16)"><path d="M-250 0A250 46 0 0 1 250 0" stroke-width="9"/></g><circle r="155" stroke-width="38"/><g transform="rotate(-16)"><path d="M-250 0A250 46 0 0 0 250 0" stroke="var(--bg)" stroke-width="32"/><path d="M-250 0A250 46 0 0 0 250 0" stroke-width="12"/></g></g><circle cx="191" cy="-24" r="19" fill="currentColor"/></svg><span>Orbis</span></div><small>E&amp;CS · Semester I</small><h1>Batch 1</h1></div><div class="clk" id="clk"></div></div>
+  <div class="hd rise"><div><div class="brand"><svg class="lg" viewBox="-270 -200 540 400" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round"><g transform="rotate(-16)"><path d="M-250 0A250 46 0 0 1 250 0" stroke-width="9"/></g><circle r="155" stroke-width="38"/><g transform="rotate(-16)"><path d="M-250 0A250 46 0 0 0 250 0" stroke="var(--bg)" stroke-width="32"/><path d="M-250 0A250 46 0 0 0 250 0" stroke-width="12"/></g></g><circle cx="191" cy="-24" r="19" fill="currentColor"/></svg><span>Orbis</span></div><small>E&amp;CS · Semester I</small><div style="display:flex;align-items:center;gap:12px"><h1 id="bh">Batch 1</h1><button class="mini" id="bch" type="button">Change</button></div></div><div class="clk" id="clk"></div></div>
   <div class="hero rise idle" id="hero" style="--d:.08s"></div>
   <div class="sec rise" id="s-tt" style="--d:.16s">
     <button class="btn b2 wide" id="tgl"><span>Full timetable</span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -124,8 +126,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--ac)}textarea{min-heig
     <div class="cardx" id="exl"></div>
   </div>
   <div class="sec rise" id="s-as" style="--d:.24s">
-    <div class="sh"><h2>Assignments</h2><button class="btn b1" id="add" hidden>+ Add</button></div>
+    <div class="sh"><h2>Deadlines</h2><button class="btn b1" id="add" hidden>+ Add</button></div>
     <div class="seg" id="flt" style="margin-bottom:14px"><button data-f="all" class="on">All</button><button data-f="Assignment">Assignments</button><button data-f="Experiment">Experiments</button><button data-f="Innovative exam">Innovative exams</button></div>
+    <div class="tc" id="ebp" hidden></div>
     <div id="as"></div>
   </div>
   <div class="ft" id="ft"></div>
@@ -137,6 +140,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--ac)}textarea{min-heig
     <div class="acc"><div><div style="padding-top:10px"><textarea id="wat" placeholder="Paste the deadline message from the group"></textarea><div style="display:flex;gap:10px;align-items:center;margin-top:8px"><button type="button" class="btn b1" id="wago">Auto-fill</button><span id="wast" style="font-size:12.5px;color:var(--mu)"></span></div></div></div></div>
     <label>Type</label><div class="tp" id="tp" style="--h:205"><button type="button" class="sc on" data-t="Assignment">Assignment</button><button type="button" class="sc" data-t="Experiment">Experiment</button><button type="button" class="sc" data-t="Innovative exam">Innovative exam</button></div>
   </div>
+  <div class="only-item" id="bsec" hidden><label>Batch (experiment dates differ by batch)</label><div class="tc" id="bp"></div></div>
   <label>Subject</label><div class="sg" id="sg"></div>
   <div class="only-item"><label>Title</label><input id="fti" placeholder="e.g. Problem set 4"></div>
   <label id="dl">Deadline</label><div class="tc" id="qk" style="margin-bottom:10px"><button type="button" class="mini" data-q="1">Tomorrow</button><button type="button" class="mini" data-q="3">In 3 days</button><button type="button" class="mini" data-q="7">In a week</button></div><div class="cal" id="cal"></div>
@@ -146,19 +150,27 @@ input:focus,select:focus,textarea:focus{border-color:var(--ac)}textarea{min-heig
     <label>Attachment (PDF or DOCX, optional, max 1 MB)</label><div class="tc"><button type="button" class="mini" id="pk">Choose file</button><span id="pn" style="font-size:13px;color:var(--mu);align-self:center"></span><button type="button" class="mini" id="px" hidden style="background:var(--rdb);color:var(--rd)">Remove</button></div><input type="file" id="pdf" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden></div>
   <div style="display:flex;gap:8px;margin-top:18px"><button class="btn b1" style="flex:1">Save</button><button type="button" class="btn b2" id="fx">Cancel</button><button type="button" class="btn" id="fdl" hidden style="background:var(--rdb);color:var(--rd)">Delete</button></div>
 </form></div></div>
+<div class="ov" id="ov3"><div class="sheet"><h2>Which batch are you in?</h2><div style="color:var(--mu);font-size:13.5px;margin-top:4px">Your lectures and experiment dates follow your batch. You can change it any time.</div><div class="sg" id="bsg" style="margin-top:16px"></div></div></div>
 <script>
 /* ===== EDIT THESE ===== */
 const FB={apiKey:"AIzaSyDPRrfSLqtYMGI9Nlf9JLhDgrQO_7N58iY",authDomain:"orbis-ecee1.firebaseapp.com",projectId:"orbis-ecee1",storageBucket:"orbis-ecee1.firebasestorage.app",messagingSenderId:"729644254568",appId:"1:729644254568:web:21a151c208b553c4d402dd"};          // paste Firebase config here
 const ADMINS=["siddhantdhanawade2509@gmail.com","parthiviguptaorg@gmail.com"];               // admin emails (also put them in Firestore rules)
+/* Batch representatives (BRs): each can add or edit experiments for their own batch only. Add emails here AND in the Firestore rules */
+const BRS={1:[],2:[],3:[]};
 const SUBJ=["Chemistry","PPS","IIKS","Maths","EM","PS","EW"];       // subjects in the assignment dropdown
-const S={Maths:{n:'Mathematics-I',f:'Dr. Savita Chandel',h:38},Chemistry:{n:'Chemistry',f:'Dr. Pooja Singh',h:345},PPS:{n:'PPS',f:'Ms. Ritika Tiwari',h:145},EM:{n:'Engineering Mechanics',f:'Mr. M.D. Dayal',h:210},IIKS:{n:'IIKS',f:'Mr. Bhaskar Hambarde',h:270},AAD:{n:'AAD-I',f:'Dr. Savita Chandel',h:320},PS:{n:'PS-I',f:'',h:20},EW:{n:'Electrical Workshop',f:'',h:175}};
-/* Timetable, Batch 1: [start, end, subject(s), room, label]. '-' = break. Day 1 = Monday */
-const T={1:[['08:30','09:30','Maths','518'],['09:30','10:30','IIKS','518'],['10:30','12:30','EM','012']],
-2:[['08:30','10:30','Chemistry','218'],['10:30','11:30','PPS','503'],['11:30','12:30','-'],['12:30','13:30','IIKS','518'],['13:30','14:30','Chemistry','518'],['14:30','15:30','Maths','518','Tutorial']],
-3:[['08:30','09:30','EM','518'],['09:30','10:30','Chemistry','518'],['10:30','11:30','-'],['11:30','12:30','Maths','518'],['12:30','14:30','PS','205']],
-4:[['08:30','09:30','EM','518'],['09:30','10:30','Maths','518'],['10:30','11:30','-'],['11:30','12:30','PPS','518'],['12:30','14:30','PPS','315'],['14:30','15:30','IIKS','508']],
-5:[['08:30','09:30','Chemistry','518'],['09:30','10:30','EM','518'],['10:30','12:30','EW','121'],['12:30','13:30','-'],['13:30','14:30','Maths','533'],['14:30','15:30','PPS','533']],
+const S={Maths:{n:'Mathematics-I',f:'Dr. Savita Chandel',h:38},Chemistry:{n:'Chemistry',f:'Dr. Pooja Singh',h:345},PPS:{n:'PPS',f:'Ms. Ritika Tiwari',h:145},EM:{n:'Engineering Mechanics',f:'Mr. M.D. Dayal',h:210},IIKS:{n:'IIKS',f:'Mr. Bhaskar Hambarde',h:270},AAD:{n:'AAD-I',f:'Dr. Savita Chandel',h:320},PS:{n:'PS-I',f:'',h:20},EW:{n:'Electrical Workshop',f:'',h:175},PCW:{n:'PC Assembly Workshop',f:'',h:175}};
+/* Timetables for all 3 batches: [start, end, subject(s), room, label]. '-' = break. Day 1 = Monday.
+   V(start,end,Batch1,Batch2,Batch3) = a slot where batches differ; null = nothing listed for that batch */
+const V=(s,e,a,b,c)=>({v:[a,b,c].map(x=>x&&[s,e,...x])});
+const TD={
+1:[['08:30','09:30','Maths','518'],['09:30','10:30','IIKS','518'],V('10:30','12:30',['EM','012'],['PPS','103'],['Chemistry','218'])],
+2:[V('08:30','10:30',['Chemistry','218'],['EM','012'],['PPS','103']),['10:30','11:30','PPS','503'],['11:30','12:30','-'],['12:30','13:30','IIKS','518'],['13:30','14:30','Chemistry','518'],V('14:30','15:30',['Maths','518','Tutorial'],['Maths','512','Tutorial'],null)],
+3:[['08:30','09:30','EM','518'],['09:30','10:30','Chemistry','518'],['10:30','11:30','-'],['11:30','12:30','Maths','518'],V('12:30','14:30',['PS','205'],['PS','616'],null)],
+4:[['08:30','09:30','EM','518'],['09:30','10:30','Maths','518'],['10:30','11:30','-'],['11:30','12:30','PPS','518'],V('12:30','14:30',['PPS','315'],['Chemistry','006'],['EM','012']),['14:30','15:30','IIKS','508']],
+5:[['08:30','09:30','Chemistry','518'],['09:30','10:30','EM','518'],V('10:30','12:30',['EW','121'],['PCW','DH'],null),['12:30','13:30','-'],['13:30','14:30','Maths','533'],['14:30','15:30','PPS','533']],
 6:[['09:30','10:30','AAD','Online'],['10:30','12:30','PPS+EM','Online'],['12:30','13:30','-'],['13:30','15:30','Maths+Chemistry','Online'],['15:30','17:30','IIKS','Online','Practical']]};
+const TB=[null,1,2,3].map(n=>n&&Object.fromEntries(Object.entries(TD).map(([d,L])=>[d,L.flatMap(x=>x.v?(x.v[n-1]?[x.v[n-1]]:[]):[x])])));
+let T=TB[1];
 /* ===================== */
 const FULL={Maths:'Mathematics-I',Chemistry:'Chemistry',PPS:'Programming for Problem Solving',IIKS:'Introduction to Indian Knowledge System',EM:'Engineering Mechanics',PS:'PS-I',EW:'Electrical Workshop'};
 /* Semester exam timetable, E&CS (In-Semester Exam I, Oct 2026): [date, start, end, subject] */
@@ -179,8 +191,11 @@ const now=()=>{const d=new Date();if(demoD){const[y,m,x]=demoD.split('-');d.setF
 const dateFor=w=>{const d=now();d.setDate(d.getDate()+(w-d.getDay()+7)%7);return d};
 const info=e=>{const k=e[2].split('+');return{t:k.map(x=>S[x].n).join(' / '),f:[...new Set(k.map(x=>S[x].f).filter(Boolean))].join(', '),h:S[k[0]].h}};
 let A=[],X=[],OV={can:[],hol:[],exSeeded:false},user=null,store,filter='all',tab=null,done=ld('done',[]),edit=null,mode='item',type='Assignment',loaded=false,anim=true,lastMin='';
+let batch=+ld('batch',0)||0,eb=batch||1,fBatch=0;T=TB[batch||1];
 const isAdmin=()=>!!user&&ADMINS.map(x=>x.toLowerCase()).includes(user.toLowerCase());
-const canc=(d,e)=>OV.can.includes(d+'|'+e[0]),hol=d=>OV.hol.includes(d);
+const brOf=()=>{if(!user)return 0;const u=user.toLowerCase();for(const b of [1,2,3])if((BRS[b]||[]).map(x=>x.toLowerCase()).includes(u))return b;return 0};
+const canEdit=a=>isAdmin()||(a.type==='Experiment'&&!!brOf()&&+a.batch===brOf()),canAdd=()=>isAdmin()||!!brOf();
+const canc=(d,e)=>OV.can.includes(d+'|'+e[0]+'|'+e[2]),hol=d=>OV.hol.includes(d);
 
 /* ---------- data layer ---------- */
 function demoStore(){
@@ -266,7 +281,7 @@ function rTT(){
   h+=T[tab].map(e=>{
     if(e[2]==='-')return`<div class="rw brk"><div class="tm">${f12(e[0])}</div><div class="rb"><span>Break</span></div></div>`;
     const i=info(e),c=canc(k,e),cur=tab===td&&!H&&!c&&mn(e[0])<=m&&m<mn(e[1]);
-    return`<div class="rw${cur?' cur':''}${c||H?' cx':''}" style="--h:${i.h}"><div class="tm">${f12(e[0])}<br>${f12(e[1])}</div><div class="bar"></div><div class="rb"><b>${i.t}${e[4]?' · '+e[4]:''}</b><span>${rm(e)}${i.f?' · '+i.f:''}</span></div>${c?'<span class="pill">Cancelled</span>':''}${ad&&!H?`<button class="mini" data-c="${k}|${e[0]}">${c?'Restore':'Cancel'}</button>`:''}</div>`}).join('');
+    return`<div class="rw${cur?' cur':''}${c||H?' cx':''}" style="--h:${i.h}"><div class="tm">${f12(e[0])}<br>${f12(e[1])}</div><div class="bar"></div><div class="rb"><b>${i.t}${e[4]?' · '+e[4]:''}</b><span>${rm(e)}${i.f?' · '+i.f:''}</span></div>${c?'<span class="pill">Cancelled</span>':''}${ad&&!H?`<button class="mini" data-c="${k}|${e[0]}|${e[2]}">${c?'Restore':'Cancel'}</button>`:''}</div>`}).join('');
   $('#tt').innerHTML=h}
 
 /* ---------- assignments, experiments, innovative exams ---------- */
@@ -274,13 +289,15 @@ const ymd=t=>{const d=new Date(t);return d.getFullYear()+String(d.getMonth()+1).
 const gcal=a=>{const e=new Date(a.due);e.setDate(e.getDate()+1);return'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(a.type+': '+a.title+' ('+a.subject+')')+'&dates='+ymd(a.due)+'/'+ymd(e)+'&details='+encodeURIComponent(a.notes||'')};
 const isDoc=n=>/\.docx$/i.test(n||''),isEx=a=>a.type==='Innovative exam';
 function rAS(){
+  const ep=$('#ebp');ep.hidden=filter!=='Experiment';if(!ep.hidden)ep.innerHTML=[1,2,3].map(n=>`<button type="button" class="mini${n===eb?' sel':''}" data-eb="${n}">Batch ${n}</button>`).join('');
   const t=Date.now(),dn=a=>done.includes(a.id),an=anim,g=x=>dn(x)?2:x.due<t?1:0;
-  const L=A.filter(a=>filter==='all'||a.type===filter).sort((a,b)=>g(a)-g(b)||(g(a)===1?b.due-a.due:a.due-b.due));
-  $('#as').innerHTML=L.length?L.map((a,i)=>`<div class="as${dn(a)?' dn':''}${an?' rise':''}" style="--h:${(S[a.subject]||{h:220}).h};--d:${i*.06}s"><button class="ck" data-d="${a.id}" aria-label="Mark done">✓</button><div class="ab"><div class="chips"><span class="ch">${esc(a.subject)}</span><span class="ch ty">${esc(a.type)}</span></div><div class="at">${esc(a.title)}</div><div class="dd">${isEx(a)?'Exam on ':'Due '}${new Date(a.due).toLocaleDateString([],{weekday:'short',day:'numeric',month:'short'})}</div>${dn(a)?'<span class="cd fin">Done</span>':`<span class="cd" data-due="${a.due}" data-ex="${isEx(a)?1:0}"></span>`}${a.notes?`<div class="nt" data-n="1">${esc(a.notes)}</div>`:''}<div class="ac">${a.pdfId?`<button class="mini" data-p="${a.id}">${isDoc(a.pdfName)?'Download DOCX':'Open PDF'}</button>`:''}<a class="mini" target="_blank" rel="noopener" href="${gcal(a)}">Add to calendar</a>${isAdmin()?`<button class="mini" data-e="${a.id}">Edit</button>`:''}</div></div></div>`).join(''):'<div class="empty">Nothing here yet. You\'re all clear.</div>';
+  const vis=a=>{if(a.type!=='Experiment'||!(+a.batch))return true;return +a.batch===(filter==='Experiment'?eb:(batch||eb))};
+  const L=A.filter(a=>(filter==='all'||a.type===filter)&&vis(a)).sort((a,b)=>g(a)-g(b)||(g(a)===1?b.due-a.due:a.due-b.due));
+  $('#as').innerHTML=L.length?L.map((a,i)=>`<div class="as${dn(a)?' dn':''}${an?' rise':''}" style="--h:${(S[a.subject]||{h:220}).h};--d:${i*.06}s"><button class="ck" data-d="${a.id}" aria-label="Mark done">✓</button><div class="ab"><div class="chips"><span class="ch">${esc(a.subject)}</span><span class="ch ty">${esc(a.type)}</span>${a.type==='Experiment'&&+a.batch?`<span class="ch ty">Batch ${+a.batch}</span>`:''}</div><div class="at">${esc(a.title)}</div><div class="dd">${isEx(a)?'Exam on ':'Due '}${new Date(a.due).toLocaleDateString([],{weekday:'short',day:'numeric',month:'short'})}</div>${dn(a)?'<span class="cd fin">Done</span>':`<span class="cd" data-due="${a.due}" data-ex="${isEx(a)?1:0}"></span>`}${a.notes?`<div class="nt" data-n="1">${esc(a.notes)}</div>`:''}<div class="ac">${a.pdfId?`<button class="mini" data-p="${a.id}">${isDoc(a.pdfName)?'Download DOCX':'Open PDF'}</button>`:''}<a class="mini" target="_blank" rel="noopener" href="${gcal(a)}">Add to calendar</a>${canEdit(a)?`<button class="mini" data-e="${a.id}">Edit</button>`:''}</div></div></div>`).join(''):'<div class="empty">Nothing here yet. You\'re all clear.</div>';
   if(loaded)anim=false;tick()}
 function rFT(){
-  $('#ft').innerHTML=(user?`${esc(user)} · ${isAdmin()?'Admin':'Not an admin'} <button id="so">Sign out</button>`:'<button id="si">Admin sign in</button>')+(isAdmin()?`<div style="margin-top:12px">Preview <input type="date" id="pd" value="${demoD||''}" style="width:auto;display:inline-block;padding:6px 8px"> <input type="time" id="pt" value="${demo||''}" style="width:auto;display:inline-block;padding:6px 8px"></div>`:'')+(store.demo?'<div style="margin-top:10px">Demo mode: data stays on this device.</div>':'');
-  $('#add').hidden=!isAdmin()}
+  $('#ft').innerHTML=(user?`${esc(user)} · ${isAdmin()?'Admin':brOf()?'Batch '+brOf()+' rep':'Not an admin'} <button id="so">Sign out</button>`:'<button id="si">Admin sign in</button>')+(isAdmin()?`<div style="margin-top:12px">Preview <input type="date" id="pd" value="${demoD||''}" style="width:auto;display:inline-block;padding:6px 8px"> <input type="time" id="pt" value="${demo||''}" style="width:auto;display:inline-block;padding:6px 8px"></div>`:'')+(store.demo?'<div style="margin-top:10px">Demo mode: data stays on this device.</div>':'');
+  $('#add').hidden=!canAdd()}
 
 /* ---------- loop ---------- */
 function cd(due,ex){const a=new Date(due),b=new Date();b.setHours(0,0,0,0);a.setHours(0,0,0,0);const n=Math.round((a-b)/864e5);
@@ -302,10 +319,11 @@ function rCal(){const y=calM.getFullYear(),m=calM.getMonth(),first=new Date(y,m,
   for(let i=0;i<first;i++)h+='<span></span>';
   for(let d=1;d<=dim;d++){const dt=new Date(y,m,d),on=fDate&&+dt===+fDate;h+=`<button type="button" data-day="${d}" class="${on?'on':''}${+dt===+t0?' td':''}"${dt<t0&&!edit?' disabled':''}>${d}</button>`}
   $('#cal').innerHTML=h+'</div>'}
-function setType(){[...$('#tp').children].forEach(b=>b.classList.toggle('on',b.dataset.t===type));$('#dl').textContent=type==='Innovative exam'?'Exam date':'Deadline'}
+function setType(){[...$('#tp').children].forEach(b=>b.classList.toggle('on',b.dataset.t===type));$('#dl').textContent=type==='Innovative exam'?'Exam date':'Deadline';$('#bsec').hidden=type!=='Experiment';$('#tp').hidden=!isAdmin()}
+function rBP(){const L=isAdmin()?[1,2,3]:[brOf()];$('#bp').innerHTML=L.map(n=>`<button type="button" class="mini${n===fBatch?' sel':''}" data-bp="${n}">Batch ${n}</button>`).join('')}
 function rPdf(){const nm=fFile?fFile.name:(fOld&&!fRemove?fOld.name:'');$('#pn').textContent=nm||'No file chosen';$('#px').hidden=!nm;$('#pk').textContent=nm?'Replace file':'Choose file'}
 const show=()=>{$('#ov').classList.add('on');try{history.pushState({s:1},'');hist=true}catch(e){}};
-function openSheet(a){mode='item';$('#fm').classList.remove('ex');edit=a||null;$('#fh').textContent=a?'Edit item':'New item';type=a?a.type:'Assignment';setType();
+function openSheet(a){mode='item';$('#fm').classList.remove('ex');edit=a||null;$('#fh').textContent=a?'Edit item':'New item';type=a?a.type:(isAdmin()?'Assignment':'Experiment');fBatch=a?(+a.batch||0):(isAdmin()?0:brOf());setType();rBP();
   fSub=a?a.subject:SUBJ[0];const dd=a?new Date(a.due):null;fDate=dd?new Date(dd.getFullYear(),dd.getMonth(),dd.getDate()):null;const cm=fDate||new Date();calM=new Date(cm.getFullYear(),cm.getMonth(),1);
   $('#fti').value=a?a.title:'';$('#fn').value=a?a.notes||'':'';$('#wat').value='';$('#wast').textContent='';$('#ferr').textContent='';$('#wab').classList.remove('open');
   fFile=null;fRemove=false;fOld=a&&a.pdfId?{id:a.pdfId,n:a.pdfN,name:a.pdfName}:null;rPdf();rSubj();rCal();
@@ -342,8 +360,16 @@ function parseWA(x){
   else if(/\btoday\b/.test(l))d=t0;
   else if(/\b(tomorrow|tmrw)\b/.test(l)){d=new Date(t0);d.setDate(d.getDate()+1)}
   else if(m=l.match(/\b(sun|mon|tues?|wed(?:nes)?|thu(?:rs?)?|fri|sat(?:ur)?)(?:day)?\b/)){d=new Date(t0);const k=(['sun','mon','tue','wed','thu','fri','sat'].indexOf(m[1].slice(0,3))-d.getDay()+7)%7;d.setDate(d.getDate()+(k||7))}
-  o.d=d;o.title=(c.split('\n').find(s=>s.trim())||'').trim().slice(0,70);
+  const bm=l.match(/batch\s*-?\s*([123])/);o.b=bm?+bm[1]:0;o.d=d;o.title=(c.split('\n').find(s=>s.trim())||'').trim().slice(0,70);
   return o}
+
+/* ---------- batch chooser ---------- */
+function rBatch(){$('#bh').textContent='Batch '+(batch||1)}
+function openBatch(){$('#bsg').innerHTML=[1,2,3].map(n=>`<button type="button" class="sc${n===batch?' on':''}" style="--h:${[205,145,345][n-1]}" data-b="${n}"><i></i>Batch ${n}</button>`).join('');$('#ov3').classList.add('on')}
+$('#bsg').onclick=e=>{const b=e.target.closest('button');if(!b)return;batch=+b.dataset.b;sv('batch',batch);T=TB[batch];eb=batch;hh='';tab=null;$('#ov3').classList.remove('on');rBatch();rTT();rAS();tick()};
+$('#bch').onclick=openBatch;$('#ov3').onclick=e=>{if(e.target.id==='ov3'&&batch)$('#ov3').classList.remove('on')};
+$('#ebp').onclick=e=>{const n=e.target.dataset.eb;if(n){eb=+n;rAS()}};
+$('#bp').onclick=e=>{const n=e.target.dataset.bp;if(n){fBatch=+n;rBP()}};
 
 /* ---------- events ---------- */
 $('#tgl').onclick=e=>e.currentTarget.classList.toggle('open');
@@ -368,7 +394,7 @@ $('#cal').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.datas
 $('#qk').onclick=e=>{const b=e.target.closest('button');if(b){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()+ +b.dataset.q);fDate=d;calM=new Date(d.getFullYear(),d.getMonth(),1);$('#ferr').textContent='';rCal()}};
 $('#wab').onclick=e=>e.currentTarget.classList.toggle('open');
 $('#wago').onclick=()=>{const r=parseWA($('#wat').value);if(!r.n){$('#wast').textContent='Paste a message first.';return}
-  if(r.s)fSub=r.s;type=r.t;setType();if(r.d){fDate=r.d;calM=new Date(r.d.getFullYear(),r.d.getMonth(),1);$('#ferr').textContent=''}
+  if(r.s)fSub=r.s;type=r.t;if(r.b)fBatch=r.b;if(!isAdmin()){type='Experiment';fBatch=brOf()}setType();rBP();if(r.d){fDate=r.d;calM=new Date(r.d.getFullYear(),r.d.getMonth(),1);$('#ferr').textContent=''}
   $('#fti').value=r.title;$('#fn').value=r.n;rSubj();rCal();
   $('#wast').textContent='Filled'+(r.s?' \u00b7 '+r.s:' \u00b7 pick subject')+(r.d?' \u00b7 '+r.d.toLocaleDateString([],{day:'numeric',month:'short'}):' \u00b7 pick date')+'. Please check.'};
 $('#pk').onclick=()=>$('#pdf').click();
@@ -385,7 +411,8 @@ $('#fm').onsubmit=async e=>{e.preventDefault();
   if(mode==='exam'){const s=$('#xs').value,en=$('#xe').value;if(en<=s){$('#ferr').textContent='End time must be after start time.';return}
     const r={subject:fSub,date:ds(fDate),s,e:en};if(edit)r.id=edit.id;
     try{await store.saveExam(r);closeSheet()}catch(x){alert('Could not save. Are you signed in as an admin?')}return}
-  const r={type,subject:fSub,title:$('#fti').value.trim(),due:dueTs(),notes:$('#fn').value.trim()};if(edit)r.id=edit.id;
+  if(type==='Experiment'&&!fBatch){$('#ferr').textContent='Choose the batch for this experiment.';return}
+  const r={type,subject:fSub,title:$('#fti').value.trim(),due:dueTs(),notes:$('#fn').value.trim(),batch:type==='Experiment'?fBatch:0};if(edit)r.id=edit.id;
   if(!r.title){if(type==='Innovative exam')r.title=fSub+' innovative exam';else{$('#ferr').textContent='Add a title.';return}}
   $('#ferr').textContent='';
   try{
@@ -401,7 +428,7 @@ $('#fm').onsubmit=async e=>{e.preventDefault();
   store.onList(l=>{A=l;loaded=true;rAS()});
   store.onExams(l=>{X=l;rTT();rEX();tick()});
   store.onOv(o=>{OV={can:o.can||[],hol:o.hol||[],exSeeded:!!o.exSeeded};rTT();rEX();tick()});
-  rFT();rTT();rEX();rAS();setInterval(tick,1000)})();
+  rFT();rTT();rEX();rAS();rBatch();if(!batch)openBatch();setInterval(tick,1000)})();
 
 </script>
 </body>
